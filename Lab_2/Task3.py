@@ -45,7 +45,7 @@ def main():
     #proove that the decoder is correct with the legitimate channel
     print("Proof that the decoder is correct with the legitimate channel. (Encoding + Legitimate Channel + Decoding)")
     print("Encoding the output of the decoder:", t2.uniform_binning_encoder(uniform_binning_decoder(c)))
-    print("Legitimate Channel:", uniform_binning_decoder(t1.legitimate_corruption(t2.uniform_binning_encoder(m))))
+    print("Decoding through the legitimate channel:", uniform_binning_decoder(t1.legitimate_corruption(t2.uniform_binning_encoder(m))))
 
 if __name__ == "__main__":
     main()
