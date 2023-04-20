@@ -30,7 +30,7 @@ def uniform_binning_decoder(c):
         return
 
 def main():
-    c = [0, 1, 0, 0, 1, 0, 1]
+    c = [1, 0, 1, 1, 0, 1, 0]
     m = uniform_binning_decoder(c)
     print("The input of decoder is:", c)
     print("The output of decor is:", uniform_binning_decoder(c))
@@ -41,7 +41,7 @@ def main():
     print("Decoding the output of the encoder:", uniform_binning_decoder(t2.uniform_binning_encoder(m)))
     print("")
     #proove that the decoder is correct with the legitimate channel
-    print("Proof that the decoder is correct with the legitimate channel. (Encoding+Legitimate Channel+Decoding)")
+    print("Proof that the decoder is correct with the legitimate channel. (Encoding + Legitimate Channel + Decoding)")
 
 
 if __name__ == "__main__":
