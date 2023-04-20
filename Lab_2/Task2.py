@@ -45,9 +45,14 @@ def uniform_binning_encoder(m):
     return ris
 
 def main():
-    m = [1,0,0]
+  for m in message_space:
     print("The input is", m)
     print("The random x is", uniform_binning_encoder(m))
+    if uniform_binning_encoder(m) in cipher_space :
+      print('Valid encoding')
+    else:
+      print('Invalid encoding')
+    print(' ')
 
 
 if __name__ == "__main__":
