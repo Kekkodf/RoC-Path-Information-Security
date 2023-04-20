@@ -41,16 +41,13 @@ def uniform_binning_encoder(m):
         else:
             z.append(0)
     set = [y, z]
-    return set
-
-def choose_random_x(set):
-    return random.choice(set)
+    ris = random.choice(set)
+    return ris
 
 def main():
-    m = [1,0,1]
+    m = [1,0,0]
     print("The input is", m)
-    print("The bin based on the input is", uniform_binning_encoder(m))
-    print("The random x is", choose_random_x(uniform_binning_encoder(m)))
+    print("The random x is", uniform_binning_encoder(m))
 
 
 if __name__ == "__main__":
