@@ -2,6 +2,7 @@ import random
 import matplotlib.pyplot as plt
 from matplotlib import pyplot
 import numpy as np
+from statistics import mean, stdev
 
 
 def xor(a, b):
@@ -96,13 +97,34 @@ def main():
     print("EXITING THE LOOP")
     print("-----------------------------")
 
-    # extend the legitimate channel error counters to include the tuples that have 0 occurences and appear in the eavesdropper channel error counters
+    print("LEGITIMATE CHANNEL ERROR COUNTERS: ", legitimate_channel_error_counters)
+    print("EAVESDROPPER CHANNEL ERROR COUNTERS: ", eavesdropper_channel_error_counters)
+
+    print("-----------------------------")
+    print(
+        "MEAN ERROR RATE OF THE LEGITIMATE CHANNEL: ",
+        mean(legitimate_channel_error_counters.values()),
+    )
+    print("-----------------------------")
+    print(
+        "MEAN ERROR RATE OF THE EAVESDROPPER CHANNEL: ",
+        mean(eavesdropper_channel_error_counters.values()),
+    )
+    print("-----------------------------")
+    print("-----------------------------")
+    print(
+        "STANDARD DEVIATION OF THE LEGITIMATE CHANNEL: ",
+        stdev(legitimate_channel_error_counters.values()),
+    )
+    print("-----------------------------")
+    print(
+        "STANDARD DEVIATION OF THE EAVESDROPPER CHANNEL: ",
+        stdev(eavesdropper_channel_error_counters.values()),
+    )
+
     for error in eavesdropper_channel_error_counters:
         if error not in legitimate_channel_error_counters:
             legitimate_channel_error_counters[error] = 0
-
-    print("LEGITIMATE CHANNEL ERROR COUNTERS: ", legitimate_channel_error_counters)
-    print("EAVESDROPPER CHANNEL ERROR COUNTERS: ", eavesdropper_channel_error_counters)
 
     # plot the results
     # figure size
