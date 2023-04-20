@@ -35,7 +35,7 @@ def main():
     c = [1, 0, 1, 1, 0, 1, 0]
     m = uniform_binning_decoder(c)
     print("The input of decoder is:", c)
-    print("The output of decor is:", uniform_binning_decoder(c))
+    print("The output of decoder is:", uniform_binning_decoder(c))
     print("")
     #proove that the decoder is correct
     print("Proof that the decoder is correct. (Encoding + Decoding)")
