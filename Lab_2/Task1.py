@@ -11,41 +11,56 @@ def xor(a, b):
     return a
 
 
+def legitimate_corruption(input):
+    legitimate_channel_random_error = random.choice(legitimate_channel_error)
+    xor(input, legitimate_channel_random_error)
+    return input
+
+
+def eavesdropper_corruption(input):
+    eavesdropper_channel_random_error = random.choice(eavesdropper_channel_error)
+    xor(input, eavesdropper_channel_random_error)
+    return input
+
+
+input = [1, 0, 1, 0, 1, 0, 0]
+
+legitimate_channel_error = [
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 1],
+    [0, 0, 0, 0, 0, 1, 0],
+    [0, 0, 0, 0, 1, 0, 0],
+    [0, 0, 0, 1, 0, 0, 0],
+    [0, 0, 1, 0, 0, 0, 0],
+    [0, 1, 0, 0, 0, 0, 0],
+    [1, 0, 0, 0, 0, 0, 0],
+]
+
+eavesdropper_channel_error = [
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 1],
+    [0, 0, 0, 0, 0, 1, 0],
+    [0, 0, 0, 0, 1, 0, 0],
+    [0, 0, 0, 1, 0, 0, 0],
+    [0, 0, 1, 0, 0, 0, 0],
+    [0, 1, 0, 0, 0, 0, 0],
+    [1, 0, 0, 0, 0, 0, 0],
+    [1, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 1, 0],
+    [1, 0, 0, 0, 1, 0, 0],
+    [1, 0, 0, 1, 0, 0, 0],
+    [1, 0, 1, 0, 0, 0, 0],
+    [1, 1, 0, 0, 0, 0, 0],
+    [1, 1, 0, 0, 0, 0, 1],
+    [1, 1, 0, 0, 0, 1, 0],
+    [1, 1, 0, 0, 1, 0, 0],
+    [1, 1, 0, 1, 0, 0, 0],
+    [1, 1, 1, 0, 0, 0, 0],
+]
+
+
 def main():
     input = [1, 0, 1, 0, 1, 0, 0]
-
-    legitimate_channel_error = [
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 1],
-        [0, 0, 0, 0, 0, 1, 0],
-        [0, 0, 0, 0, 1, 0, 0],
-        [0, 0, 0, 1, 0, 0, 0],
-        [0, 0, 1, 0, 0, 0, 0],
-        [0, 1, 0, 0, 0, 0, 0],
-        [1, 0, 0, 0, 0, 0, 0],
-    ]
-
-    eavesdropper_channel_error = [
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 1],
-        [0, 0, 0, 0, 0, 1, 0],
-        [0, 0, 0, 0, 1, 0, 0],
-        [0, 0, 0, 1, 0, 0, 0],
-        [0, 0, 1, 0, 0, 0, 0],
-        [0, 1, 0, 0, 0, 0, 0],
-        [1, 0, 0, 0, 0, 0, 0],
-        [1, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 1, 0],
-        [1, 0, 0, 0, 1, 0, 0],
-        [1, 0, 0, 1, 0, 0, 0],
-        [1, 0, 1, 0, 0, 0, 0],
-        [1, 1, 0, 0, 0, 0, 0],
-        [1, 1, 0, 0, 0, 0, 1],
-        [1, 1, 0, 0, 0, 1, 0],
-        [1, 1, 0, 0, 1, 0, 0],
-        [1, 1, 0, 1, 0, 0, 0],
-        [1, 1, 1, 0, 0, 0, 0],
-    ]
 
     # define two dictionaries to count the number of occurences of each error. The keys are the errors and the values are the number of occurences
     legitimate_channel_error_counters = {}
