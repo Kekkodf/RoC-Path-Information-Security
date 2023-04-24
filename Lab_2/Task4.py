@@ -155,6 +155,7 @@ def run_10k_times(message):
 
     for i in range(5000):
         print("Message: ", message)
+        print("Entering the transmission phase...")
         transmitted = t2.uniform_binning_encoder(message)
         if transmitted is None:
             continue
@@ -219,7 +220,7 @@ def plot_corrupted_ciphers(eavesdropper_channel_error_counters):
 
 def main():
     # for message in messages_list:
-    message = [1, 1, 1]
+    message = [1, 0, 0]
     print("Message:", message)
     print("Starting the 10k iterations w/corruption...")
     print("-------------------------------------------")
