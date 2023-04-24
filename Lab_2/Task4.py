@@ -1,32 +1,168 @@
 import numpy as np
 import task1 as t1
 import task2 as t2
-import task3 as t3
 import matplotlib.pyplot as plt
 from matplotlib import pyplot
-import random
 
-messages = t2.message_space
+messages_list = message_space = [
+    [0, 0, 0],
+    [0, 0, 1],
+    [0, 1, 0],
+    [1, 0, 0],
+    [0, 1, 1],
+    [1, 0, 1],
+    [1, 1, 0],
+    [1, 1, 1],
+]
 
-ciphers_clear = t2.cipher_space
+potential_corrupted_ciphers = [
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 1],
+    [0, 0, 0, 0, 0, 1, 0],
+    [0, 0, 0, 0, 0, 1, 1],
+    [0, 0, 0, 0, 1, 0, 0],
+    [0, 0, 0, 0, 1, 0, 1],
+    [0, 0, 0, 0, 1, 1, 0],
+    [0, 0, 0, 0, 1, 1, 1],
+    [0, 0, 0, 1, 0, 0, 0],
+    [0, 0, 0, 1, 0, 0, 1],
+    [0, 0, 0, 1, 0, 1, 0],
+    [0, 0, 0, 1, 0, 1, 1],
+    [0, 0, 0, 1, 1, 0, 0],
+    [0, 0, 0, 1, 1, 0, 1],
+    [0, 0, 0, 1, 1, 1, 0],
+    [0, 0, 0, 1, 1, 1, 1],
+    [0, 0, 1, 0, 0, 0, 0],
+    [0, 0, 1, 0, 0, 0, 1],
+    [0, 0, 1, 0, 0, 1, 0],
+    [0, 0, 1, 0, 0, 1, 1],
+    [0, 0, 1, 0, 1, 0, 0],
+    [0, 0, 1, 0, 1, 0, 1],
+    [0, 0, 1, 0, 1, 1, 0],
+    [0, 0, 1, 0, 1, 1, 1],
+    [0, 0, 1, 1, 0, 0, 0],
+    [0, 0, 1, 1, 0, 0, 1],
+    [0, 0, 1, 1, 0, 1, 0],
+    [0, 0, 1, 1, 0, 1, 1],
+    [0, 0, 1, 1, 1, 0, 0],
+    [0, 0, 1, 1, 1, 0, 1],
+    [0, 0, 1, 1, 1, 1, 0],
+    [0, 0, 1, 1, 1, 1, 1],
+    [0, 1, 0, 0, 0, 0, 0],
+    [0, 1, 0, 0, 0, 0, 1],
+    [0, 1, 0, 0, 0, 1, 0],
+    [0, 1, 0, 0, 0, 1, 1],
+    [0, 1, 0, 0, 1, 0, 0],
+    [0, 1, 0, 0, 1, 0, 1],
+    [0, 1, 0, 0, 1, 1, 0],
+    [0, 1, 0, 0, 1, 1, 1],
+    [0, 1, 0, 1, 0, 0, 0],
+    [0, 1, 0, 1, 0, 0, 1],
+    [0, 1, 0, 1, 0, 1, 0],
+    [0, 1, 0, 1, 0, 1, 1],
+    [0, 1, 0, 1, 1, 0, 0],
+    [0, 1, 0, 1, 1, 0, 1],
+    [0, 1, 0, 1, 1, 1, 0],
+    [0, 1, 0, 1, 1, 1, 1],
+    [0, 1, 1, 0, 0, 0, 0],
+    [0, 1, 1, 0, 0, 0, 1],
+    [0, 1, 1, 0, 0, 1, 0],
+    [0, 1, 1, 0, 0, 1, 1],
+    [0, 1, 1, 0, 1, 0, 0],
+    [0, 1, 1, 0, 1, 0, 1],
+    [0, 1, 1, 0, 1, 1, 0],
+    [0, 1, 1, 0, 1, 1, 1],
+    [0, 1, 1, 1, 0, 0, 0],
+    [0, 1, 1, 1, 0, 0, 1],
+    [0, 1, 1, 1, 0, 1, 0],
+    [0, 1, 1, 1, 0, 1, 1],
+    [0, 1, 1, 1, 1, 0, 0],
+    [0, 1, 1, 1, 1, 0, 1],
+    [0, 1, 1, 1, 1, 1, 0],
+    [0, 1, 1, 1, 1, 1, 1],
+    [1, 0, 0, 0, 0, 0, 0],
+    [1, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 1, 0],
+    [1, 0, 0, 0, 0, 1, 1],
+    [1, 0, 0, 0, 1, 0, 0],
+    [1, 0, 0, 0, 1, 0, 1],
+    [1, 0, 0, 0, 1, 1, 0],
+    [1, 0, 0, 0, 1, 1, 1],
+    [1, 0, 0, 1, 0, 0, 0],
+    [1, 0, 0, 1, 0, 0, 1],
+    [1, 0, 0, 1, 0, 1, 0],
+    [1, 0, 0, 1, 0, 1, 1],
+    [1, 0, 0, 1, 1, 0, 0],
+    [1, 0, 0, 1, 1, 0, 1],
+    [1, 0, 0, 1, 1, 1, 0],
+    [1, 0, 0, 1, 1, 1, 1],
+    [1, 0, 1, 0, 0, 0, 0],
+    [1, 0, 1, 0, 0, 0, 1],
+    [1, 0, 1, 0, 0, 1, 0],
+    [1, 0, 1, 0, 0, 1, 1],
+    [1, 0, 1, 0, 1, 0, 0],
+    [1, 0, 1, 0, 1, 0, 1],
+    [1, 0, 1, 0, 1, 1, 0],
+    [1, 0, 1, 0, 1, 1, 1],
+    [1, 0, 1, 1, 0, 0, 0],
+    [1, 0, 1, 1, 0, 0, 1],
+    [1, 0, 1, 1, 0, 1, 0],
+    [1, 0, 1, 1, 0, 1, 1],
+    [1, 0, 1, 1, 1, 0, 0],
+    [1, 0, 1, 1, 1, 0, 1],
+    [1, 0, 1, 1, 1, 1, 0],
+    [1, 0, 1, 1, 1, 1, 1],
+    [1, 1, 0, 0, 0, 0, 0],
+    [1, 1, 0, 0, 0, 0, 1],
+    [1, 1, 0, 0, 0, 1, 0],
+    [1, 1, 0, 0, 0, 1, 1],
+    [1, 1, 0, 0, 1, 0, 0],
+    [1, 1, 0, 0, 1, 0, 1],
+    [1, 1, 0, 0, 1, 1, 0],
+    [1, 1, 0, 0, 1, 1, 1],
+    [1, 1, 0, 1, 0, 0, 0],
+    [1, 1, 0, 1, 0, 0, 1],
+    [1, 1, 0, 1, 0, 1, 0],
+    [1, 1, 0, 1, 0, 1, 1],
+    [1, 1, 0, 1, 1, 0, 0],
+    [1, 1, 0, 1, 1, 0, 1],
+    [1, 1, 0, 1, 1, 1, 0],
+    [1, 1, 0, 1, 1, 1, 1],
+    [1, 1, 1, 0, 0, 0, 0],
+    [1, 1, 1, 0, 0, 0, 1],
+    [1, 1, 1, 0, 0, 1, 0],
+    [1, 1, 1, 0, 0, 1, 1],
+    [1, 1, 1, 0, 1, 0, 0],
+    [1, 1, 1, 0, 1, 0, 1],
+    [1, 1, 1, 0, 1, 1, 0],
+    [1, 1, 1, 0, 1, 1, 1],
+    [1, 1, 1, 1, 0, 0, 0],
+    [1, 1, 1, 1, 0, 0, 1],
+    [1, 1, 1, 1, 0, 1, 0],
+    [1, 1, 1, 1, 0, 1, 1],
+    [1, 1, 1, 1, 1, 0, 0],
+    [1, 1, 1, 1, 1, 0, 1],
+    [1, 1, 1, 1, 1, 1, 0],
+    [1, 1, 1, 1, 1, 1, 1],
+]
 
-corrupted_ciphers = []
-for i in range(len(ciphers_clear)):
-    corrupted_ciphers.append(t1.eavesdropper_corruption(ciphers_clear[i]))
-    print("Added corrupted cipher:", corrupted_ciphers[i])
 
-
-def run_10k_times(corrupted_ciphers):
-    # run the decoder 10k times
+def run_10k_times(message):
     eavesdropper_channel_error_counters = {}
-    for error in corrupted_ciphers:
+    for error in potential_corrupted_ciphers:
+        error = np.asarray(error)
         eavesdropper_channel_error_counters[tuple(error)] = 0
-    for i in range(20000):
-        # message = t1.xor(message, corrupted_ciphers[i])
-        eavesdropper_channel_random_error = random.choice(corrupted_ciphers)
-        eavesdropper_channel_error_counters[
-            tuple(eavesdropper_channel_random_error)
-        ] += 1
+
+    for i in range(5000):
+        print("Message: ", message)
+        transmitted = t2.uniform_binning_encoder(message)
+        if transmitted is None:
+            continue
+        print("Transmitted message: ", transmitted)
+        corrupted = t1.eavesdropper_corruption(transmitted)
+        print("Corrupted message: ", corrupted)
+        eavesdropper_channel_error_counters[tuple(corrupted)] += 1
+        print("Added 1 to ", corrupted)
 
     return eavesdropper_channel_error_counters
 
@@ -41,7 +177,6 @@ def compute_empirical_distribution(eavesdropper_channel_error_counters):
     return empirical_distribution
 
 
-# plot the results
 def plot_corrupted_ciphers(eavesdropper_channel_error_counters):
     pyplot.figure(figsize=(10, 15))
 
@@ -83,7 +218,13 @@ def plot_corrupted_ciphers(eavesdropper_channel_error_counters):
 
 
 def main():
-    plot_corrupted_ciphers(run_10k_times(corrupted_ciphers))
+    # for message in messages_list:
+    message = [1, 1, 1]
+    print("Message:", message)
+    print("Starting the 10k iterations w/corruption...")
+    print("-------------------------------------------")
+    plot_corrupted_ciphers(run_10k_times(message))
+    print("-------------------------------------------")
 
 
 if __name__ == "__main__":
