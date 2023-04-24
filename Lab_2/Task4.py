@@ -153,13 +153,10 @@ def run_10k_times(message):
         error = np.asarray(error)
         eavesdropper_channel_error_counters[tuple(error)] = 0
 
-    for i in range(10000):
-        print("Message: ", message)
-        print("Entering the transmission phase...")
-        transmitted = t2.uniform_binning_encoder(message)
-        if transmitted is None:
-            continue
-        print("Transmitted message: ", transmitted)
+    transmitted = t2.uniform_binning_encoder(message)
+    print("Transmitted message: ", transmitted)
+
+    for i in range(15000):
         corrupted = t1.eavesdropper_corruption(transmitted)
         print("Corrupted message: ", corrupted)
         eavesdropper_channel_error_counters[tuple(corrupted)] += 1
@@ -179,7 +176,7 @@ def compute_empirical_distribution(eavesdropper_channel_error_counters):
 
 
 def plot_corrupted_ciphers(eavesdropper_channel_error_counters):
-    pyplot.figure(figsize=(10, 15))
+    pyplot.figure(figsize=(40, 15))
 
     plt.bar(
         range(len(eavesdropper_channel_error_counters)),
