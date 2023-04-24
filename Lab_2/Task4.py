@@ -153,7 +153,7 @@ def run_10k_times(message):
         error = np.asarray(error)
         eavesdropper_channel_error_counters[tuple(error)] = 0
 
-    for i in range(5000):
+    for i in range(10000):
         print("Message: ", message)
         print("Entering the transmission phase...")
         transmitted = t2.uniform_binning_encoder(message)
