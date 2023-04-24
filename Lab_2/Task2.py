@@ -57,25 +57,39 @@ def pmd(x, y):
 
 # uniform binning encoder
 def uniform_binning_encoder(m):
+    print("Entered uniform_binning_encoder...")
     y = []
     z = []
+    print("The inserted message is", m)
     # verify that the input is in the cipher space
     if not (m in message_space):
         print("The input is not in the message space")
         return None
     else:
+        print("Message is in message space! Continuing...")
         for x in cipher_space:
             if x[0] == 0:
                 if x[1:4] == m:
+                    print("Found the match! X is", x)
                     y = x
                     print("Exiting")
                     break
+                else:
+                    print(
+                        "Checked for "
+                        + str(x)
+                        + " and "
+                        + str(m)
+                        + " is yet to be found"
+                    )
     # computing the complementary code
     for i in range(len(y)):
         if y[i] == 0:
             z.append(1)
+            print("Appended 1 to z")
         else:
             z.append(0)
+            print("Appended 0 to z")
     set = [y, z]
     print(set)
     ris = random.choice(set)
