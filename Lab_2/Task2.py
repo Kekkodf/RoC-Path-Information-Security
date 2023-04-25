@@ -27,11 +27,15 @@ def hamming_distance(v1, v2):
     return np.sum(np.abs(v1 - v2))
 
 
-# observe that the minimum Hamming distance in the code is 3
-# for v1 in cipher_space:
-#    for v2 in cipher_space:
-#        if not (v1 == v2):
-#            print("Hamming distance between", v1, "and", v2, "is", hamming_distance(np.array(v1), np.array(v2)))
+def inverse(m):
+    n = []
+    for i in range(len(m)):
+        if m[i] == 0:
+            n.append(1)
+        else:
+            n.append(0)
+    return n
+
 
 message_space = [
     [0, 0, 0],
@@ -55,49 +59,43 @@ def pmd(x, y):
         return hamming_distance(np.array(x), np.array(y)) / 7
 
 
+import copy
+
+old_ciphe_space = copy.deepcopy(cipher_space)
+
+
 # uniform binning encoder
 def uniform_binning_encoder(m):
-    print("Entered uniform_binning_encoder...")
+    cipher_space = copy.deepcopy(old_ciphe_space)
+    flag = False
+    # print("Entered uniform_binning_encoder...")
     y = []
     z = []
+    n = inverse(m)
+    encoding = np.random.randint(0, 2)
+
     print("The inserted message is", m)
     # verify that the input is in the cipher space
     if not (m in message_space):
         print("The input is not in the message space")
         return None
     else:
-        print("Message is in message space! Continuing...")
-        for x in cipher_space:
-            if x[0] == 0:
-                if x[1:4] == m:
-                    print("Found the match! X is", x)
-                    y = x
-                    print("Exiting")
-                    break
-                else:
-                    print(
-                        "Checked for "
-                        + str(x)
-                        + " and "
-                        + str(m)
-                        + " is yet to be found"
-                    )
-    # computing the complementary code
-    for i in range(len(y)):
-        if y[i] == 0:
-            z.append(1)
-            print("Appended 1 to z")
+        # print("Message " + str(m) + " is in the message space! Continuing...")
+        cip_messages = [c[1:4] if c[0] == encoding else None for c in cipher_space]
+        if m in cip_messages and encoding == 0:
+            #    print("The message is in the chip messages")
+            y = cipher_space[cip_messages.index(m)]
+        elif n in cip_messages and encoding == 1:
+            #    print("The message is in the chip messages")
+            y = cipher_space[cip_messages.index(n)]
         else:
-            z.append(0)
-            print("Appended 0 to z")
-    set = [y, z]
-    print(set)
-    ris = random.choice(set)
-    return ris
+            raise Exception("The message is not in the cipher messages")
+
+    return y
 
 
 def main():
-    m = [1, 0, 0]
+    m = [0, 0, 0]
     print("The input is", m)
     print("The random x is", uniform_binning_encoder(m))
 
