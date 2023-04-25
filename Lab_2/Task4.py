@@ -1,6 +1,6 @@
 import numpy as np
-import task1 as t1
-import task2 as t2
+import Task1 as t1
+import Task2 as t2
 import matplotlib.pyplot as plt
 from matplotlib import pyplot
 
