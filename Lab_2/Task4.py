@@ -176,8 +176,8 @@ def compute_empirical_distribution(eavesdropper_channel_error_counters):
     return empirical_distribution
 
 
-def plot_corrupted_ciphers(eavesdropper_channel_error_counters):
-    pyplot.figure(figsize=(40, 15))
+def plot_corrupted_ciphers(eavesdropper_channel_error_counters, m):
+    pyplot.figure(figsize=(25, 15))
 
     plt.bar(
         range(len(eavesdropper_channel_error_counters)),
@@ -190,13 +190,17 @@ def plot_corrupted_ciphers(eavesdropper_channel_error_counters):
         list(eavesdropper_channel_error_counters.keys()),
     )
     plt.xticks(rotation=90)
-    plt.xticks(fontsize=6)
+    plt.xticks(fontsize=12)
 
     # add uniformity threshold
 
-    plt.show()
+    #plt.show()
+    pyplot.savefig(str(m) + " corrupted_ciphers.png")
 
-    pyplot.figure(figsize=(40, 15))
+    pyplot.figure(figsize=(25, 15))
+
+    #save the empirical distribution as .png
+    
 
     # plot the empirical distribution
     empirical_distribution = compute_empirical_distribution(
@@ -213,10 +217,12 @@ def plot_corrupted_ciphers(eavesdropper_channel_error_counters):
         list(empirical_distribution.keys()),
     )
     plt.xticks(rotation=90)
-    plt.xticks(fontsize=6)
+    plt.xticks(fontsize=12)
 
-    plt.show()
+    #plt.show()
 
+    #save the empirical distribution as .png
+    pyplot.savefig(str(m) + " empirical_distribution.png")
 
 def main():
     # for message in messages_list:
@@ -226,7 +232,7 @@ def main():
         print("Message:", message)
         print("Starting the 15k iterations w/corruption...")
         print("-------------------------------------------")
-        plot_corrupted_ciphers(run_10k_times(message))
+        plot_corrupted_ciphers(run_10k_times(message), message)
         print("-------------------------------------------")
 
 
