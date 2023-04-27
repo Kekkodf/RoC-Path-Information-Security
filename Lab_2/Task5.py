@@ -4,28 +4,28 @@ import Task2 as t2
 import Task3 as t3
 import matplotlib.pyplot as plt
 import random
+from matplotlib import pyplot
 
-#eavsdropper channel corruption example
-epsilon = 0.1
-delta = 0.2
+#eavsdropper channel corruption example (0 < epsilon < delta < 1/2)
+#epsilon = 0.1
+#delta = 0.2
 
-#legitimate channel corruption example
-#epsilon = 0.2
-#delta = 0.1
+#legitimate channel corruption example (0 < delta < epsilon < 1/2)
+epsilon = 0.2
+delta = 0.1
+
+#define the number of trials
+number_trials = 10000
 
 def BSC(epsilon, delta, m):
     if (abs((epsilon - 0.5))<abs(delta - 0.5)):
         v = t1.legitimate_corruption(t2.uniform_binning_encoder(m))
-        ans = []
-        for i in range(len(v)):
-            ans.append(v[i])
-        return ans
+        return v
     if (abs(epsilon - 0.5)>abs(delta - 0.5)):
         v = t1.eavesdropper_corruption(t2.uniform_binning_encoder(m))
-        ans = []
-        for i in range(len(v)):
-            ans.append(v[i])
-        return ans
+        return v
+    else:
+        return None
 
 def main():
     print("If 0 < delta < epsilon < 0.5") #legitimate channel is degraded
@@ -36,7 +36,7 @@ def main():
     #create a random message
     count_correctly_matched = 0
     count_missmatched = 0
-    for i in range(7):
+    for i in range(number_trials):
         m = []
         for i in range(3):
             m.append(random.randint(0, 1))
@@ -60,6 +60,17 @@ def main():
     print("The number of correctly matched messages is:", count_correctly_matched)
     print("The number of missmatched messages is:", count_missmatched)
 
+    #plot the results in a barh graph
+    objects = ('Correctly decoded', 'Missmatched')
+    y_pos = np.arange(len(objects))
+    performance = [count_correctly_matched/number_trials, count_missmatched/number_trials]
+    plt.barh(y_pos, performance, align='center', alpha=0.5)
+    plt.yticks(y_pos, objects)
+    plt.xlabel('Percentage of messages')
+    plt.show()
+    
+    #save as png
+    plt.savefig('Task5_leg_channel_corruption.png')
 
 if __name__ == "__main__":
     main()
