@@ -147,7 +147,7 @@ potential_corrupted_ciphers = [
 ]
 
 
-def run_10k_times(message):
+def run_15k_times(message):
     eavesdropper_channel_error_counters = {}
 
     for i in range(15000):
@@ -171,7 +171,7 @@ def compute_empirical_distribution(eavesdropper_channel_error_counters):
     empirical_distribution = {}
     for error in eavesdropper_channel_error_counters:
         empirical_distribution[error] = (
-            eavesdropper_channel_error_counters[error] / 10000
+            eavesdropper_channel_error_counters[error] / 15000
         )
     return empirical_distribution
 
@@ -232,7 +232,7 @@ def main():
         print("Message:", message)
         print("Starting the 15k iterations w/corruption...")
         print("-------------------------------------------")
-        plot_corrupted_ciphers(run_10k_times(message), message)
+        plot_corrupted_ciphers(run_15k_times(message), message)
         print("-------------------------------------------")
 
 

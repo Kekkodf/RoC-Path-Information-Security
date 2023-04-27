@@ -95,7 +95,7 @@ def uniform_binning_encoder(m):
 
 
 def main():
-    m = [0, 0, 0]
+    m = [1, 0, 0]
     print("The input is", m)
     print("The random x is", uniform_binning_encoder(m))
 

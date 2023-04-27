@@ -7,15 +7,15 @@ import random
 from matplotlib import pyplot
 
 #eavsdropper channel corruption example (0 < epsilon < delta < 1/2)
-#epsilon = 0.1
-#delta = 0.2
+epsilon = 0.1
+delta = 0.2
 
 #legitimate channel corruption example (0 < delta < epsilon < 1/2)
-epsilon = 0.2
-delta = 0.1
+#epsilon = 0.2
+#delta = 0.1
 
 #define the number of trials
-number_trials = 10000
+number_trials = 100000
 
 def BSC(epsilon, delta, m):
     if (abs((epsilon - 0.5))<abs(delta - 0.5)):
