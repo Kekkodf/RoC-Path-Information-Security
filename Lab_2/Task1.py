@@ -23,8 +23,6 @@ def eavesdropper_corruption(input):
     return input
 
 
-input = [1, 0, 1, 0, 1, 0, 0]
-
 legitimate_channel_error = [
     [0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 1],
