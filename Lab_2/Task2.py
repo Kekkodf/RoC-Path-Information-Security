@@ -74,7 +74,7 @@ def uniform_binning_encoder(m):
     n = inverse(m)
     encoding = np.random.randint(0, 2)
 
-    print("The inserted message is", m)
+    # print("The inserted message is", m)
     # verify that the input is in the cipher space
     if not (m in message_space):
         print("The input is not in the message space")
