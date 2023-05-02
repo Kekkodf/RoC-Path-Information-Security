@@ -2,11 +2,11 @@ import numpy as np
 import Task1 as t1
 import Task2 as t2
 import matplotlib.pyplot as plt
-from matplotlib import pyplot
+from matplotlib import pyplot 
 
 message_space = [
     [0, 0, 0],
-    [0, 0, 1],
+    [0, 0, 1]
     [0, 1, 0],
     [1, 0, 0],
     [0, 1, 1],
@@ -148,6 +148,7 @@ potential_corrupted_ciphers = [
 
 
 def run_15k_times(message):
+    
     eavesdropper_channel_error_counters = {}
 
     for i in range(15000):
