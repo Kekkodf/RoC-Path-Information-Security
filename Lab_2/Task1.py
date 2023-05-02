@@ -290,10 +290,13 @@ eavesdropper_channel_error = [
 ]
 
 
-def hamming_distance(v1, v2):
-    v1 = np.array(v1)
-    v2 = np.array(v2)
-    return np.sum(np.abs(v1 - v2))
+def hamming_distance(str1, str2):
+    # Calculate the Hamming distance
+    hamming_dist = 0
+    for i in range(len(str1)):
+        if str1[i] != str2[i]:
+            hamming_dist += 1
+    return hamming_dist
 
 
 # compute where the eavesdropper channel error is hamming distance <=3 from the input
