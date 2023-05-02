@@ -4,11 +4,14 @@ from matplotlib import pyplot
 import numpy as np
 from statistics import mean, stdev
 
+input = [1, 0, 1, 0, 1, 0, 0]
+
 
 def xor(a, b):
+    c = [0] * len(a)
     for i in range(len(a)):
-        a[i] = a[i] ^ b[i]
-    return a
+        c[i] = a[i] ^ b[i]
+    return c
 
 
 def legitimate_corruption(input):
@@ -22,18 +25,139 @@ def eavesdropper_corruption(input):
     xor(input, eavesdropper_channel_random_error)
     return input
 
-#all possible corruption of the message
-#we considered all possible combination of bits 
-#where the Hamming distance is =< 3 with the original message
+
+# all possible corruption of the message
+# we considered all possible combination of bits
+# where the Hamming distance is =< 3 with the original message
 legitimate_channel_error = [
     [0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 1],
     [0, 0, 0, 0, 0, 1, 0],
+    [0, 0, 0, 0, 0, 1, 1],
     [0, 0, 0, 0, 1, 0, 0],
+    [0, 0, 0, 0, 1, 0, 1],
+    [0, 0, 0, 0, 1, 1, 0],
+    [0, 0, 0, 0, 1, 1, 1],
     [0, 0, 0, 1, 0, 0, 0],
+    [0, 0, 0, 1, 0, 0, 1],
+    [0, 0, 0, 1, 0, 1, 0],
+    [0, 0, 0, 1, 0, 1, 1],
+    [0, 0, 0, 1, 1, 0, 0],
+    [0, 0, 0, 1, 1, 0, 1],
+    [0, 0, 0, 1, 1, 1, 0],
+    [0, 0, 0, 1, 1, 1, 1],
     [0, 0, 1, 0, 0, 0, 0],
+    [0, 0, 1, 0, 0, 0, 1],
+    [0, 0, 1, 0, 0, 1, 0],
+    [0, 0, 1, 0, 0, 1, 1],
+    [0, 0, 1, 0, 1, 0, 0],
+    [0, 0, 1, 0, 1, 0, 1],
+    [0, 0, 1, 0, 1, 1, 0],
+    [0, 0, 1, 0, 1, 1, 1],
+    [0, 0, 1, 1, 0, 0, 0],
+    [0, 0, 1, 1, 0, 0, 1],
+    [0, 0, 1, 1, 0, 1, 0],
+    [0, 0, 1, 1, 0, 1, 1],
+    [0, 0, 1, 1, 1, 0, 0],
+    [0, 0, 1, 1, 1, 0, 1],
+    [0, 0, 1, 1, 1, 1, 0],
+    [0, 0, 1, 1, 1, 1, 1],
     [0, 1, 0, 0, 0, 0, 0],
+    [0, 1, 0, 0, 0, 0, 1],
+    [0, 1, 0, 0, 0, 1, 0],
+    [0, 1, 0, 0, 0, 1, 1],
+    [0, 1, 0, 0, 1, 0, 0],
+    [0, 1, 0, 0, 1, 0, 1],
+    [0, 1, 0, 0, 1, 1, 0],
+    [0, 1, 0, 0, 1, 1, 1],
+    [0, 1, 0, 1, 0, 0, 0],
+    [0, 1, 0, 1, 0, 0, 1],
+    [0, 1, 0, 1, 0, 1, 0],
+    [0, 1, 0, 1, 0, 1, 1],
+    [0, 1, 0, 1, 1, 0, 0],
+    [0, 1, 0, 1, 1, 0, 1],
+    [0, 1, 0, 1, 1, 1, 0],
+    [0, 1, 0, 1, 1, 1, 1],
+    [0, 1, 1, 0, 0, 0, 0],
+    [0, 1, 1, 0, 0, 0, 1],
+    [0, 1, 1, 0, 0, 1, 0],
+    [0, 1, 1, 0, 0, 1, 1],
+    [0, 1, 1, 0, 1, 0, 0],
+    [0, 1, 1, 0, 1, 0, 1],
+    [0, 1, 1, 0, 1, 1, 0],
+    [0, 1, 1, 0, 1, 1, 1],
+    [0, 1, 1, 1, 0, 0, 0],
+    [0, 1, 1, 1, 0, 0, 1],
+    [0, 1, 1, 1, 0, 1, 0],
+    [0, 1, 1, 1, 0, 1, 1],
+    [0, 1, 1, 1, 1, 0, 0],
+    [0, 1, 1, 1, 1, 0, 1],
+    [0, 1, 1, 1, 1, 1, 0],
+    [0, 1, 1, 1, 1, 1, 1],
     [1, 0, 0, 0, 0, 0, 0],
+    [1, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 1, 0],
+    [1, 0, 0, 0, 0, 1, 1],
+    [1, 0, 0, 0, 1, 0, 0],
+    [1, 0, 0, 0, 1, 0, 1],
+    [1, 0, 0, 0, 1, 1, 0],
+    [1, 0, 0, 0, 1, 1, 1],
+    [1, 0, 0, 1, 0, 0, 0],
+    [1, 0, 0, 1, 0, 0, 1],
+    [1, 0, 0, 1, 0, 1, 0],
+    [1, 0, 0, 1, 0, 1, 1],
+    [1, 0, 0, 1, 1, 0, 0],
+    [1, 0, 0, 1, 1, 0, 1],
+    [1, 0, 0, 1, 1, 1, 0],
+    [1, 0, 0, 1, 1, 1, 1],
+    [1, 0, 1, 0, 0, 0, 0],
+    [1, 0, 1, 0, 0, 0, 1],
+    [1, 0, 1, 0, 0, 1, 0],
+    [1, 0, 1, 0, 0, 1, 1],
+    [1, 0, 1, 0, 1, 0, 0],
+    [1, 0, 1, 0, 1, 0, 1],
+    [1, 0, 1, 0, 1, 1, 0],
+    [1, 0, 1, 0, 1, 1, 1],
+    [1, 0, 1, 1, 0, 0, 0],
+    [1, 0, 1, 1, 0, 0, 1],
+    [1, 0, 1, 1, 0, 1, 0],
+    [1, 0, 1, 1, 0, 1, 1],
+    [1, 0, 1, 1, 1, 0, 0],
+    [1, 0, 1, 1, 1, 0, 1],
+    [1, 0, 1, 1, 1, 1, 0],
+    [1, 0, 1, 1, 1, 1, 1],
+    [1, 1, 0, 0, 0, 0, 0],
+    [1, 1, 0, 0, 0, 0, 1],
+    [1, 1, 0, 0, 0, 1, 0],
+    [1, 1, 0, 0, 0, 1, 1],
+    [1, 1, 0, 0, 1, 0, 0],
+    [1, 1, 0, 0, 1, 0, 1],
+    [1, 1, 0, 0, 1, 1, 0],
+    [1, 1, 0, 0, 1, 1, 1],
+    [1, 1, 0, 1, 0, 0, 0],
+    [1, 1, 0, 1, 0, 0, 1],
+    [1, 1, 0, 1, 0, 1, 0],
+    [1, 1, 0, 1, 0, 1, 1],
+    [1, 1, 0, 1, 1, 0, 0],
+    [1, 1, 0, 1, 1, 0, 1],
+    [1, 1, 0, 1, 1, 1, 0],
+    [1, 1, 0, 1, 1, 1, 1],
+    [1, 1, 1, 0, 0, 0, 0],
+    [1, 1, 1, 0, 0, 0, 1],
+    [1, 1, 1, 0, 0, 1, 0],
+    [1, 1, 1, 0, 0, 1, 1],
+    [1, 1, 1, 0, 1, 0, 0],
+    [1, 1, 1, 0, 1, 0, 1],
+    [1, 1, 1, 0, 1, 1, 0],
+    [1, 1, 1, 0, 1, 1, 1],
+    [1, 1, 1, 1, 0, 0, 0],
+    [1, 1, 1, 1, 0, 0, 1],
+    [1, 1, 1, 1, 0, 1, 0],
+    [1, 1, 1, 1, 0, 1, 1],
+    [1, 1, 1, 1, 1, 0, 0],
+    [1, 1, 1, 1, 1, 0, 1],
+    [1, 1, 1, 1, 1, 1, 0],
+    [1, 1, 1, 1, 1, 1, 1],
 ]
 
 eavesdropper_channel_error = [
@@ -168,25 +292,41 @@ eavesdropper_channel_error = [
 ]
 
 
+def hamming_distance(v1, v2):
+    v1 = np.array(v1)
+    v2 = np.array(v2)
+    return np.sum(np.abs(v1 - v2))
+
+
+# compute where the eavesdropper channel error is hamming distance <=3 from the input
+list1 = []
+for vector in eavesdropper_channel_error:
+    if hamming_distance(input, vector) <= 3:
+        list1.append(vector)
+
+list2 = []
+for vector in legitimate_channel_error:
+    if hamming_distance(input, vector) <= 1:
+        list2.append(vector)
+
+
 def main():
     input = [1, 0, 1, 0, 1, 0, 0]
-
     # define two dictionaries to count the number of occurences of each error. The keys are the errors and the values are the number of occurences
     legitimate_channel_error_counters = {}
     eavesdropper_channel_error_counters = {}
 
     # initialize the counters to 0
-    for error in legitimate_channel_error:
-        legitimate_channel_error_counters[tuple(error)] = 0
-
-    for error in eavesdropper_channel_error:
+    for error in list1:
         eavesdropper_channel_error_counters[tuple(error)] = 0
 
-    for i in range(10000):
-        input = [1, 0, 1, 0, 1, 0, 0]
+    for error in list2:
+        legitimate_channel_error_counters[tuple(error)] = 0
 
-        legitimate_channel_random_error = random.choice(legitimate_channel_error)
-        eavesdropper_channel_random_error = random.choice(eavesdropper_channel_error)
+    for i in range(10000):
+        # choose a random error from the list of errors
+        legitimate_channel_random_error = random.choice(list2)
+        eavesdropper_channel_random_error = random.choice(list1)
 
         print("INPUT: ", input)
         print("-----------------------------")
