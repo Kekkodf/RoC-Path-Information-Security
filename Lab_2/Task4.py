@@ -4,7 +4,7 @@ import Task2 as t2
 import matplotlib.pyplot as plt
 from matplotlib import pyplot
 
-messages_list = message_space = [
+message_space = [
     [0, 0, 0],
     [0, 0, 1],
     [0, 1, 0],
@@ -151,10 +151,10 @@ def run_15k_times(message):
     eavesdropper_channel_error_counters = {}
 
     for i in range(15000):
-        print("\n\n")
         transmitted = t2.uniform_binning_encoder(message)
         print("Transmitted message: ", transmitted)
-        corrupted = t1.eavesdropper_corruption(transmitted)
+        corrupted = t1.limited_corruption(transmitted)
+        print("Corrupted message: ", corrupted)
         if tuple(corrupted) not in eavesdropper_channel_error_counters.keys():
             eavesdropper_channel_error_counters[tuple(corrupted)] = 0
         else:
@@ -176,7 +176,7 @@ def compute_empirical_distribution(eavesdropper_channel_error_counters):
     return empirical_distribution
 
 
-def plot_corrupted_ciphers(eavesdropper_channel_error_counters, m):
+def plot_corrupted_ciphers(eavesdropper_channel_error_counters):
     pyplot.figure(figsize=(25, 15))
 
     plt.bar(
@@ -190,17 +190,15 @@ def plot_corrupted_ciphers(eavesdropper_channel_error_counters, m):
         list(eavesdropper_channel_error_counters.keys()),
     )
     plt.xticks(rotation=90)
-    plt.xticks(fontsize=12)
+    plt.xticks(fontsize=6)
 
     # add uniformity threshold
 
-    #plt.show()
-    pyplot.savefig(str(m) + " corrupted_ciphers.png")
+    plt.show()
 
     pyplot.figure(figsize=(25, 15))
 
-    #save the empirical distribution as .png
-    
+    # save the empirical distribution as .png
 
     # plot the empirical distribution
     empirical_distribution = compute_empirical_distribution(
@@ -217,23 +215,21 @@ def plot_corrupted_ciphers(eavesdropper_channel_error_counters, m):
         list(empirical_distribution.keys()),
     )
     plt.xticks(rotation=90)
-    plt.xticks(fontsize=12)
+    plt.xticks(fontsize=6)
 
-    #plt.show()
+    plt.show()
 
-    #save the empirical distribution as .png
-    pyplot.savefig(str(m) + " empirical_distribution.png")
 
 def main():
     # for message in messages_list:
     np.random.seed(0)
-    # message = [1, 0, 0]
-    for message in message_space:
-        print("Message:", message)
-        print("Starting the 15k iterations w/corruption...")
-        print("-------------------------------------------")
-        plot_corrupted_ciphers(run_15k_times(message), message)
-        print("-------------------------------------------")
+    message = [1, 0, 0]
+    # for message in message_space:
+    print("Message:", message)
+    print("Starting the 15k iterations w/corruption...")
+    print("-------------------------------------------")
+    plot_corrupted_ciphers(run_15k_times(message))
+    print("-------------------------------------------")
 
 
 if __name__ == "__main__":
