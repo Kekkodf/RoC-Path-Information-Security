@@ -7,7 +7,7 @@ import random
 from matplotlib import pyplot
 
 # eavsdropper channel corruption example (0 < epsilon < delta < 1/2)
-epsilon = 0.1
+epsilon = 0.4
 delta = 0.2
 
 # legitimate channel corruption example (0 < delta < epsilon < 1/2)
@@ -25,7 +25,7 @@ def BSC(epsilon, delta, m):
         return v
     if abs(epsilon - 0.5) > abs(delta - 0.5):
         print("Encoded: ", t2.uniform_binning_encoder(m))
-        v = t1.limited_corruption(t2.uniform_binning_encoder(m))
+        v = t1.eavesdropper_corruption(t2.uniform_binning_encoder(m))
         return v
     else:
         return None
