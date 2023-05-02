@@ -4,7 +4,7 @@ from matplotlib import pyplot
 import numpy as np
 from statistics import mean, stdev
 
-input = [1, 0, 1, 0, 1, 0, 0]
+input_given = [0, 0, 0, 0, 0, 0, 0]
 
 
 def xor(a, b):
@@ -14,16 +14,14 @@ def xor(a, b):
     return c
 
 
-def legitimate_corruption(input):
+def legitimate_corruption(input_given):
     legitimate_channel_random_error = random.choice(legitimate_channel_error)
-    xor(input, legitimate_channel_random_error)
-    return input
+    return xor(input_given, legitimate_channel_random_error)
 
 
-def eavesdropper_corruption(input):
+def eavesdropper_corruption(input_given):
     eavesdropper_channel_random_error = random.choice(eavesdropper_channel_error)
-    xor(input, eavesdropper_channel_random_error)
-    return input
+    return xor(input_given, eavesdropper_channel_random_error)
 
 
 # all possible corruption of the message
@@ -301,17 +299,27 @@ def hamming_distance(v1, v2):
 # compute where the eavesdropper channel error is hamming distance <=3 from the input
 list1 = []
 for vector in eavesdropper_channel_error:
-    if hamming_distance(input, vector) <= 3:
+    if hamming_distance(input_given, vector) <= 3:
         list1.append(vector)
 
 list2 = []
 for vector in legitimate_channel_error:
-    if hamming_distance(input, vector) <= 1:
+    if hamming_distance(input_given, vector) <= 1:
         list2.append(vector)
 
 
+def limited_corruption(value):
+    list1 = []
+    for vector in eavesdropper_channel_error:
+        if hamming_distance(value, vector) <= 3:
+            list1.append(vector)
+
+    eavesdropper_channel_random_error = random.choice(list1)
+    return xor(value, eavesdropper_channel_random_error)
+
+
 def main():
-    input = [1, 0, 1, 0, 1, 0, 0]
+    input_given = [0, 0, 0, 0, 0, 0, 0]
     # define two dictionaries to count the number of occurences of each error. The keys are the errors and the values are the number of occurences
     legitimate_channel_error_counters = {}
     eavesdropper_channel_error_counters = {}
@@ -328,17 +336,17 @@ def main():
         legitimate_channel_random_error = random.choice(list2)
         eavesdropper_channel_random_error = random.choice(list1)
 
-        print("INPUT: ", input)
+        print("input_given_given: ", input_given)
         print("-----------------------------")
 
         # apply the legitimate channel error
         print(
             "MESSAGE RECEIVED ON THE LEGITIMATE CHANNEL: "
-            + str(xor(input, legitimate_channel_random_error))
+            + str(xor(input_given, legitimate_channel_random_error))
         )
         print(
             "MESSAGE RECEIVED ON THE EAVESDROPPER CHANNEL: "
-            + str(xor(input, eavesdropper_channel_random_error))
+            + str(xor(input_given, eavesdropper_channel_random_error))
         )
 
         print("-----------------------------")
@@ -413,7 +421,7 @@ def main():
     plt.legend(["Legitimate Channel", "Eavesdropper Channel"])
     # reduce the size of the xticks
     plt.xticks(rotation=90)
-    plt.xticks(fontsize=6)
+    plt.xticks(fontsize=3)
 
     plt.show()
 
