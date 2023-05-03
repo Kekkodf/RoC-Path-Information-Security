@@ -1,6 +1,4 @@
 import numpy as np
-import Task1 as t1
-import Task2 as t2
 import matplotlib.pyplot as plt
 from matplotlib import pyplot
 
@@ -72,8 +70,6 @@ def plot_secrecy_capacity():
     plt.xlim(0.02, 0.98)
     plt.ylim(0,1)
     plt.show()
-    
-
 
 def plot_secrecy_capacity_3d():
     secrecy_capacity_values = []
@@ -90,7 +86,7 @@ def plot_secrecy_capacity_3d():
     ax.set_ylabel("Delta")
     ax.set_zlabel("Secrecy Capacity")
     ax.set_title("Entropy")
-    # pyplot.show()
+    pyplot.show()
 
 
 def main():
