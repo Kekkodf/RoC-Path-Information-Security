@@ -204,25 +204,40 @@ def main():
     plt.bar(
         range(len(legitimate_channel_error_counters)),
         legitimate_channel_error_counters.values(),
-        align="edge",
+        align="center",
+        label="Legitimate Channel",
     )
 
     plt.bar(
         range(len(eavesdropper_channel_error_counters)),
         eavesdropper_channel_error_counters.values(),
         align="center",
+        label="Eavesdropper Channel",
+    )
+
+    plt.plot(
+        range(len(eavesdropper_channel_error_counters)),
+        eavesdropper_channel_error_counters.values(),
+        "g--",
+        linewidth=2,
+        markersize=6,
+        marker="o",
+        label="Trend"
     )
 
     plt.xticks(
         range(len(legitimate_channel_error_counters)),
         list(legitimate_channel_error_counters.keys()),
     )
-    plt.legend(["Legitimate Channel", "Eavesdropper Channel"])
+    #set the legend
+    plt.legend(loc="best")
     # reduce the size of the xticks
     plt.xticks(rotation=90)
-    plt.xticks(fontsize=3)
-
+    plt.xticks(fontsize=6)
     plt.show()
+
+    #save the plot
+    plt.savefig("Task1_plot.png")
 
 
 if __name__ == "__main__":
