@@ -2,11 +2,11 @@ import numpy as np
 import Task1 as t1
 import Task2 as t2
 import matplotlib.pyplot as plt
-from matplotlib import pyplot 
+from matplotlib import pyplot
 
 message_space = [
     [0, 0, 0],
-    [0, 0, 1]
+    [0, 0, 1],
     [0, 1, 0],
     [1, 0, 0],
     [0, 1, 1],
@@ -148,7 +148,6 @@ potential_corrupted_ciphers = [
 
 
 def run_15k_times(message):
-    
     eavesdropper_channel_error_counters = {}
 
     for i in range(15000):
@@ -183,7 +182,18 @@ def plot_corrupted_ciphers(eavesdropper_channel_error_counters):
     plt.bar(
         range(len(eavesdropper_channel_error_counters)),
         eavesdropper_channel_error_counters.values(),
-        align="edge",
+        align="center",
+    )
+
+    plt.plot(
+        range(len(eavesdropper_channel_error_counters)),
+        eavesdropper_channel_error_counters.values(),
+        color="red",
+        linestyle="dashed",
+        linewidth=2,
+        marker="*",
+        markerfacecolor="red",
+        markersize=10,
     )
 
     plt.xticks(
@@ -205,10 +215,25 @@ def plot_corrupted_ciphers(eavesdropper_channel_error_counters):
     empirical_distribution = compute_empirical_distribution(
         eavesdropper_channel_error_counters
     )
+
+    # add a trendline
+
     plt.bar(
         range(len(empirical_distribution)),
         empirical_distribution.values(),
-        align="edge",
+        align="center",
+    )
+
+    # add segmented line that connects the top of the bars
+    plt.plot(
+        range(len(empirical_distribution)),
+        empirical_distribution.values(),
+        color="red",
+        linestyle="dashed",
+        linewidth=2,
+        marker="*",
+        markerfacecolor="red",
+        markersize=10,
     )
 
     plt.xticks(
