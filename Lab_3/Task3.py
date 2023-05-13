@@ -1,53 +1,41 @@
+import Task1 as t1
+import Task2 as t2
 import numpy as np
-
-k = np.array([1, 0, 1, 1, 0, 1, 1, 0, 1, 1])
-u = np.array([1,0,1])
-
-def convert_to_base_10(u):
-    u_base_10 = 0
-    for i in range(len(u)):
-        u_base_10 += u[i]*2**(len(u)-1-i)
-    return np.array(u_base_10)
-
-def convert_to_base_2(t):
-    t_base_2 = []
-    while t:
-        t_base_2.append(t % 2)
-        t //= 2
-    return np.array(t_base_2)
-
-def sum_digits(n):
-    sum = 0
-    while n:
-        sum += n % 10
-        n //= 10
-    return np.array(sum)
-
-def tag_computation(u,k):
-    return np.array(u*k)
-
-def verify_tag(x, k):
-    u_1 = x[0:len(u)]
-    print("u = ", u_1)
-    print("k = ", k)
-    t = tag_computation(sum_digits(convert_to_base_10(u_1)), sum_digits(convert_to_base_10(k)))
-    t = convert_to_base_2(t)
-    return t
-
 
 
 def main():
-    print("-----------------------")
-    print("u = ", u)
-    print("k = ", k)
-    t = tag_computation(sum_digits(convert_to_base_10(u)), sum_digits(convert_to_base_10(k)))
-    t = convert_to_base_2(t)
-    print("t = ", t)
-    x = np.concatenate((u,t))
-    print("x = ", x)
-    print("-----------------------")
-    print("Verify the Tag.")
-    #l'attaccante 
+    # in this code we'll assume a specific key size, hence a specific max sum_key_digits value.
+    counter = 0
+    print("We can now assume we want to transmit a FIXED message:")
+
+    u_forged = np.array([1, 0, 1, 0, 1])
+
+    print("u_forged = ", u_forged)
+
+    for i in range(57):
+        sum_key_digits = i
+        t_forged = t1.tag_computation(
+            t1.sum_digits(t1.convert_to_base_10(u_forged)), sum_key_digits
+        )
+        print("This is the forged tag in base 10: ")
+        print(t_forged)
+        t_forged = t1.convert_to_base_2(t_forged)
+        print("This is the forged tag: ")
+        print(t_forged)
+        x_forged = np.concatenate((u_forged, t_forged))
+        print("This is the forged message: ")
+        print(x_forged)
+        print("-----------------------")
+        print("Verify the Tag.")
+        t_prime = t1.verify_tag_task2(x_forged, t1.k)
+        if np.array_equal(t_forged, t_prime):
+            print("Match Found!")
+            print("The sum_key_digits is: ", sum_key_digits)
+            counter += 1
+            print("The key was found after", counter, "iterations.")
+            break
+        else:
+            counter += 1
 
 
 if __name__ == "__main__":
