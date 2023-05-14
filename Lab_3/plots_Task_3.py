@@ -3,6 +3,7 @@ from mpl_toolkits import mplot3d
 import numpy as np
 import time
 import Task1 as t1
+import Task2 as t2
 
 def convert_to_base_10(u):
     u_base_10 = 0
@@ -45,26 +46,52 @@ def main():
     x = np.arange(1, 100, 1)
     y = np.arange(1, 100, 1)
 
+    u = []
+    k = []
+
+    for i in range(1, 100):
+        u.append(np.random.randint(0, 2, i))
+        k.append(np.random.randint(0, 2, i))
+
     z = np.zeros((len(x), len(y)))
-    for i in range(len(x)):
-        for j in range(len(y)):
-            u = np.random.randint(0,2,x[i])
-            k = np.random.randint(0,2,y[j])
+    i = 0
+    for u_i in u:
+        j = 0
+        for k_j in k:
             #start
             start = time.time()
-            t = tag_computation(sum_digits(convert_to_base_10(u)), sum_digits(convert_to_base_10(k)))
-            # attacker
-            u_decimal = t1.convert_to_base_10(u)
-            t_decimal = t1.convert_to_base_10(t)
-            sum_key_digits = t_decimal // t1.sum_digits(u_decimal)
-            u_forged = np.random.randint(0,2,x[i])
-            t_forged = t1.convert_to_base_2(t1.tag_computation(t1.sum_digits(t1.convert_to_base_10(u_forged)), sum_key_digits))
-            u_1 = np.concatenate((u,t_forged))
-            #verify tag
-            u_2 = u_1[0:len(u)+1]
-            t = tag_computation(sum_digits(convert_to_base_10(u_2)), sum_digits(convert_to_base_10(k)))
+            counter = 0
+            t = tag_computation(sum_digits(convert_to_base_10(u_i)), sum_digits(convert_to_base_10(k_j)))
+            #attack
+            u_forged = np.array([1, 0, 1, 0, 1])
+            for a in range(280):
+                sum_key_digits = a
+                t_forged = t1.tag_computation(
+                    t1.sum_digits(t1.convert_to_base_10(u_forged)), sum_key_digits
+                )
+                print("This is the forged tag in base 10: ")
+                print(t_forged)
+                t_forged = t1.convert_to_base_2(t_forged)
+                print("This is the forged tag: ")
+                print(t_forged)
+                x_forged = np.concatenate((u_forged, t_forged))
+                print("This is the forged message: ")
+                print(x_forged)
+                print("-----------------------")
+                print("Verify the Tag.")
+                t_prime = t2.verify_tag_task2(x_forged, k_j)
+                if np.array_equal(t_forged, t_prime):
+                    print("Match Found!")
+                    print("The sum_key_digits is: ", sum_key_digits)
+                    counter += 1
+                    print("The key was found after", counter, "iterations.")
+                    break
+                else:
+                    counter += 1
             end = time.time()
             z[i][j] = end - start
+            j += 1
+        i += 1
     
     #plot 3d graph
     fig = plt.figure(figsize=(10,10))
@@ -73,7 +100,7 @@ def main():
     ax.plot_surface(X, Y, z, cmap='viridis')
     ax.set_xlabel('Length of the message')
     ax.set_ylabel('Length of the key')
-    ax.set_zlabel('Time complexity under attack in Task 2')
+    ax.set_zlabel('Time complexity under attack in Task 3')
     ax.zaxis.labelpad = 20
     plt.show()
 
