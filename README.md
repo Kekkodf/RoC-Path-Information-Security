@@ -12,3 +12,4 @@ The name of the group is TCP - Treviso Campari Piacenza.
 ## Task 2 - Encryption, eavsdropper and Binary Simmetric Channel errors
 
 ## Task 3 - Authentication schema
+Implementing a simple authentication schema without using any cryptographic algorithm and then computing a tag for checking the integrity of the message.
