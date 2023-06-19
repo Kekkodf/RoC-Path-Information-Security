@@ -19,4 +19,4 @@ Implementing a simple authentication schema without using any cryptographic algo
 
 ## Other resources
 - [DREX - MSN Project](https://github.com/Kekkodf/DREX)
-<!-- - [Infosec Lecture Notes](https://github.com/Kekkodf/Infosec-Lecture-Notes) -->
+- [Infosec Lecture Notes](https://github.com/Kekkodf/Infosec-Lecture-Notes)
